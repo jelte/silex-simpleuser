@@ -4,19 +4,53 @@ namespace SimpleUser;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Doctrine\ORM\Mapping as ORM;
 /**
  * A simple User model.
  *
  * @package SimpleUser
+ *
+ * @ORM\Entity
+ * @ORM\Table(name="users")
  */
 class User implements UserInterface, \Serializable
 {
+    /**
+     * @var integer
+     * @ORM\ID
+     * @ORM\GeneratedValue (strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
     protected $id;
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
     protected $email;
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
     protected $password;
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
     protected $salt;
+    /**
+     * @var string
+     * @ORM\Column(type="array")
+     */
     protected $roles = array();
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
     protected $name = '';
+    /**
+     * @var string
+     * @ORM\Column(type="integer", name="time_created")
+     */
     protected $timeCreated;
 
     /**
@@ -41,7 +75,7 @@ class User implements UserInterface, \Serializable
         $roles = $this->roles;
 
         // Every user must have at least one role, per Silex security docs.
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_ADMIN';
 
         return array_unique($roles);
     }
